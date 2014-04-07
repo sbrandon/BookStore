@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "http://struts.apache.org/dtds/struts-2.3.dtd">
+	
+<struts>
+    
+    <constant name="struts.custom.i18n.resources" value="ApplicationResources" />
+    
+    <package name="default" extends="struts-default">
+        
+        <!-- Register a new user NOTE: there is no interceptor on this method because the user will not be logged in -->
+    	<action name="register" class="com.bookstore.view.CustomerRegistration" method="register">
+    		<result name="success">bookStoreHome.jsp</result>
+    		<result name="error">index.jsp</result>
+ 		</action>
+ 		
+    	<!-- Allow an existing user to log in -->
+    	<action name="login" class="com.bookstore.view.CustomerLogIn" method="login">
+    		<result name="success">bookStoreHome.jsp</result>
+    		<result name="error">index.jsp</result>
+ 		</action>
+ 		
+    	<!-- Search Books -->
+    	<action name="searchBooks" class="com.bookstore.view.SearchBooks" method="searchBooks">
+    		<result name="success">bookStoreHome.jsp</result>
+    		<result name="error">index.jsp</result>
+ 		</action>
+ 		
+        <!-- Open the Categories Form -->
+    	<action name="categoriesForm">
+    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<result>categoryForm.jsp</result>
+ 		</action>
+ 		
+    	<!-- Open the Books Form -->
+    	<action name="booksForm" class="com.bookstore.view.ManageBooks" method="listCategories">
+    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<result name="success">booksForm.jsp</result>
+ 		</action>
+ 		
+    	<!-- Persist New Category to Database -->
+    	<action name="searchBooks" class="com.bookstore.view.ManageCategories" method="addCategory">
+    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<result name="success">administrationDashboard.jsp</result>
+    		<result name="error">categoriesForm.jsp</result>
+ 		</action>
+        
+    </package>
+    
+</struts>
