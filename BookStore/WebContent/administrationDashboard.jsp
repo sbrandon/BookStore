@@ -10,6 +10,6 @@
 <body>
 	<h1>Administration Dashboard</h1>
 	<a href="<s:url action="categoriesForm"/>">Add new Categories</a>
-	<a href="<s:url action="actionName"/>">Add new Books</a>
+	<a href="<s:url action="booksForm"/>">Add new Books</a>
 </body>
 </html>

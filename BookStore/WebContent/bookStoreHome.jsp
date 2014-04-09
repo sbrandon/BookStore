@@ -20,20 +20,16 @@
 		</s:iterator>
 	</table>
 	<h2>Search For Books</h2>
-	<s:form action="searchBooks" theme="bootstrap">
-		<div class="form-group">
-			<label for="searchObject" class="control-label">Search Subject</label>
-			<select name="searchObject" class="form-control">
-				<option value="author">Author</option>
-				<option value="title">Title</option>
-				<option value="category">Category</option>
-			</select>
-		</div>
-		<div class="form-group">
-			<label for="address" class="control-label">Search String:</label>
-			<s:textfield name="searchString" cssClass="form-control" type="text" value="" placeholder="John Steinbeck..."></s:textfield>
-		</div>
-		<s:submit type="button" cssClass="btn btn-success">Search&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></s:submit>
+	<s:form action="searchBooks">
+		<label for="searchObject" class="control-label">Search Subject</label>
+		<select name="searchObject" class="form-control">
+			<option value="author">Author</option>
+			<option value="title">Title</option>
+			<option value="category">Category</option>
+		</select>
+		<label for="address">Search String:</label>
+		<s:textfield name="searchString" type="text" value="" placeholder="John Steinbeck..."></s:textfield>
+		<s:submit type="button">Search</s:submit>
 	</s:form>
 </body>
 </html>

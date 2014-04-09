@@ -36,13 +36,13 @@ public class SearchBooks implements Preparable {
 	
 	public String searchBooks(){
 		if(searchObject.equals("author")){
-			books = manageSessionBeanLocal.findByAuthor(searchString);
+			books = manageSessionBeanLocal.findBookByAuthor(searchString);
 		}
 		else if(searchObject.equals("title")){
-			books = manageSessionBeanLocal.findByTitle(searchString);
+			books = manageSessionBeanLocal.findBookByTitle(searchString);
 		}
 		else{
-			books = manageSessionBeanLocal.findByCategory(searchString);
+			books = manageSessionBeanLocal.findBookByCategory(searchString);
 		}
 		return "success";
 	}
@@ -87,6 +87,14 @@ public class SearchBooks implements Preparable {
 
 	public void setSearchString(String searchString) {
 		this.searchString = searchString;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 }

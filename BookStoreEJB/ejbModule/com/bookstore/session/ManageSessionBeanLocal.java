@@ -6,6 +6,7 @@ import javax.ejb.Local;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
+import com.bookstore.entity.Customer;
 
 @Local
 public interface ManageSessionBeanLocal {
@@ -13,8 +14,12 @@ public interface ManageSessionBeanLocal {
 	public boolean persist(Object object);
 	//Category
 	public List<Category> getCategories();
+	public Category findCategoryById(int category_id);
 	//Book
-	public List<Book> findByTitle(String title);
-	public List<Book> findByAuthor(String author);
-	public List<Book> findByCategory(String category);
+	public List<Book> findBookByTitle(String title);
+	public List<Book> findBookByAuthor(String author);
+	public List<Book> findBookByCategory(String category);
+	public Book findBookById(int book_id);
+	//Customer
+	public Customer authenticate(String email);
 }

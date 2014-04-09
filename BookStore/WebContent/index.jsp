@@ -8,31 +8,19 @@
 	<body>
 		<h1>Welcome to the Bookstore</h1>
 		<h2>Register</h2>
-		<s:form id="register_form" action="register" theme="bootstrap">
-			<div class="form-group">
-				<s:textfield name="firstName" id="firstName" placeholder="First Name" cssClass="form-control" data-toggle="tooltip" data-placement="left" title="Please enter your first name"></s:textfield>
-			</div>
-			<div class="form-group">
-				<s:textfield name="lastName" id="lastName" placeholder="Last Name" cssClass="form-control" data-toggle="tooltip" data-placement="left" title="Please enter your last name"></s:textfield>
-			</div>
-			<div class="form-group">
-				<s:textfield name="email" id="reg-email" placeholder="Email" cssClass="form-control" data-toggle="tooltip" data-placement="left" title="Please enter a valid email"></s:textfield>
-			</div>
-			<div class="form-group">
-				<s:password name="password" id="reg-password" placeholder="Password" cssClass="form-control" data-toggle="tooltip" data-placement="left" title="Please enter a password"></s:password>
-			</div>
-			<s:submit type="button" cssClass="btn btn-success">Register</s:submit>
+		<s:form id="register_form" action="register">
+			<s:textfield name="firstName" id="firstName" placeholder="First Name"></s:textfield>
+			<s:textfield name="lastName" id="lastName" placeholder="Last Name"></s:textfield>
+			<s:textfield name="email" id="reg-email" placeholder="Email"></s:textfield>
+			<s:password name="password" id="reg-password" placeholder="Password"></s:password>
+			<s:submit type="button">Register</s:submit>
 		</s:form>
 		<h2>Login</h2>
-		<s:form action="login" theme="bootstrap">
-			<div class="form-group">
-				<s:textfield name="email" placeholder="Email" cssClass="form-control"></s:textfield>
-			</div>
-			<div class="form-group">
-				<s:password name="password" placeholder="Password" cssClass="form-control"></s:password>
-			</div>
-			<p><a href="<s:url action="forgotPassword"/>">Forgotten your password?</a></p>
-			<s:submit type="button" cssClass="btn btn-success"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Log In</s:submit>
+		<s:form action="login">
+			<s:textfield name="email" placeholder="Email" cssClass="form-control"></s:textfield>
+			<s:password name="password" placeholder="Password" cssClass="form-control"></s:password>
+			<s:submit type="button" >Log In</s:submit>
 		</s:form>
+		<p><a href="<s:url action="forgotPassword"/>">Forgotten your password?</a></p>
 	</body>
 </html>

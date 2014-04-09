@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 
 @NamedQueries({
 	@NamedQuery(name = "Category.findAll", query="select o from Category o"),
+	@NamedQuery(name = "Category.findById", query="select o from Category o where o.id=:category_id"),
 })
 
 @Entity

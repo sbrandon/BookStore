@@ -45,9 +45,11 @@ public class CustomerRegistration implements Preparable {
 		customer.setLastName(lastName);
 		customer.setEmail(email);
 		customer.setPassword(map.get("password"));
+		customer.setSalt(map.get("salt"));
 		manageSessionBeanLocal.persist(customer);
 		session = ActionContext.getContext().getSession();
 		session.put("customer", customer);
+		listCategories();
 		return "success";
 	}
 	

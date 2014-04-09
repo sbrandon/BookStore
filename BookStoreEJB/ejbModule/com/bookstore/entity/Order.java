@@ -7,23 +7,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Cart {
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	@OneToMany
-	@JoinColumn(name="cart_id")
-	private List<LineItem> lineitems;
+	@JoinColumn(name="order_id")
+	private List <LineItem> lineItems;
+	@ManyToOne
+	private Customer customer;
 	
 	//Constructor
-	public Cart(){
+	public Order(){
 		
 	}
-	
+
 	//Getters & Setters
 	public int getId() {
 		return id;
@@ -33,12 +36,20 @@ public class Cart {
 		this.id = id;
 	}
 
-	public List<LineItem> getLineitems() {
-		return lineitems;
+	public List<LineItem> getLineItems() {
+		return lineItems;
 	}
 
-	public void setLineitems(List<LineItem> lineitems) {
-		this.lineitems = lineitems;
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 }

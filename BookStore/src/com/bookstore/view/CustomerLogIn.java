@@ -36,9 +36,10 @@ public class CustomerLogIn implements Preparable {
 	}
 	
 	public String login(){
-		//customer = manageSessionBeanLocal.authenticate(email);
+		customer = manageSessionBeanLocal.authenticate(email);
 		if(passwordHash.authenticate(customer.getPassword(), customer.getSalt(), password)){
 			session.put("customer", customer);
+			listCategories();
 			return "success";
 		}
 		else{

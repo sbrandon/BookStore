@@ -21,7 +21,7 @@
  		
     	<!-- Search Books -->
     	<action name="searchBooks" class="com.bookstore.view.SearchBooks" method="searchBooks">
-    		<result name="success">bookStoreHome.jsp</result>
+    		<result name="success">listBooks.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
  		
@@ -34,14 +34,26 @@
     	<!-- Open the Books Form -->
     	<action name="booksForm" class="com.bookstore.view.ManageBooks" method="listCategories">
     		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
-    		<result name="success">booksForm.jsp</result>
+    		<result name="success">bookForm.jsp</result>
  		</action>
  		
     	<!-- Persist New Category to Database -->
-    	<action name="searchBooks" class="com.bookstore.view.ManageCategories" method="addCategory">
+    	<action name="submitCategory" class="com.bookstore.view.ManageCategories" method="addCategory">
     		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">categoriesForm.jsp</result>
+ 		</action>
+ 		
+    	<!-- Persist New Book to Database -->
+    	<action name="submitBook" class="com.bookstore.view.ManageBooks" method="addBook">
+    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<result name="success">administrationDashboard.jsp</result>
+    		<result name="error">categoriesForm.jsp</result>
+ 		</action>
+ 		
+    	<!-- View a book -->
+    	<action name="viewBook" class="com.bookstore.view.ManageBooks" method="fetchBook">
+    		<result name="success">viewBook.jsp</result>
  		</action>
         
     </package>

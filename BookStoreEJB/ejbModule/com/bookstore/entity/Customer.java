@@ -1,14 +1,19 @@
 package com.bookstore.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @NamedQueries({
 	@NamedQuery(name = "Customer.findAll", query="select o from Customer o"),
+	@NamedQuery(name = "Customer.authenticate", query = "select o from Customer o where o.email=:email"),
 })
 
 @Entity
@@ -29,6 +34,9 @@ public class Customer {
 	private String addressLine3;
 	private String town;
 	private String county;
+	@OneToMany
+	@JoinColumn(name="customer_id")
+	private List<Order> orders;
 	
 	//Constructor
 	public Customer(){
@@ -130,6 +138,22 @@ public class Customer {
 
 	public void setCounty(String county) {
 		this.county = county;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 	
 }

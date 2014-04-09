@@ -9,11 +9,9 @@
 </head>
 <body>
 	<h1>Category Form</h1>
-	<s:form action="submitCategory" theme="bootstrap">
-		<div class="form-group">
-			<s:textfield name="categoryTitle" placeholder="Email" cssClass="form-control"></s:textfield>
-		</div>
-		<s:submit type="button" cssClass="btn btn-success"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Add Category</s:submit>
+	<s:form action="submitCategory">
+		<s:textfield name="categoryTitle" placeholder="Category Title"></s:textfield>
+		<s:submit type="button">Add Category</s:submit>
 	</s:form>
 </body>
 </html>

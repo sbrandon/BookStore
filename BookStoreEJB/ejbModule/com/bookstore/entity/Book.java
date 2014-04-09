@@ -1,18 +1,23 @@
 package com.bookstore.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @NamedQueries({
 	@NamedQuery(name = "Book.findAll", query="select o from Book o"),
-	@NamedQuery(name = "Book.findByTitle", query = "select o from Book o where o.title=:search_title"),
-	@NamedQuery(name = "Book.findByAuthor", query = "select o from Book o where o.author=:search_author"),
-	@NamedQuery(name = "Book.findByCategory", query = "select o from Book o where o.category.categoryTitle=:search_category"),
+	@NamedQuery(name = "Book.findById", query="select o from Book o where o.id=:book_id"),
+	@NamedQuery(name = "Book.findByTitle", query = "select o from Book o where o.title like :search_title"),
+	@NamedQuery(name = "Book.findByAuthor", query = "select o from Book o where o.author like :search_author"),
+	@NamedQuery(name = "Book.findByCategory", query = "select o from Book o where o.category.categoryTitle like :search_category"),
 })
 
 @Entity
@@ -30,6 +35,9 @@ public class Book {
 	private int stockQuantity;
 	@ManyToOne
 	private Category category;
+	@OneToMany
+	@JoinColumn(name="book_id")
+	private List<LineItem> lineitems;
 
 	//Constructor
 	public Book(){
@@ -109,5 +117,12 @@ public class Book {
 		this.category = category;
 	}
 
+	public List<LineItem> getLineitems() {
+		return lineitems;
+	}
+
+	public void setLineitems(List<LineItem> lineitems) {
+		this.lineitems = lineitems;
+	}
 
 }
