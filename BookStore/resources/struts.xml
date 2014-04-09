@@ -7,6 +7,19 @@
     
     <package name="default" extends="struts-default">
         
+        <!-- Custom authentication interceptor is used to prevent users that are not logged in from performing actions -->
+        <interceptors>
+		    <interceptor name="customer-auth" class="ie.trailblaze.interceptor.CustomerLoginInterceptor"></interceptor>
+		    <interceptor-stack name="customer-stack">
+		        <interceptor-ref name="customer-auth"></interceptor-ref>
+		        <interceptor-ref name="defaultStack"></interceptor-ref>
+		    </interceptor-stack>
+		</interceptors>
+		
+        <global-results>
+            <result name="login" type="redirect">index.jsp</result>
+        </global-results>
+        
         <!-- Register a new user NOTE: there is no interceptor on this method because the user will not be logged in -->
     	<action name="register" class="com.bookstore.view.CustomerRegistration" method="register">
     		<result name="success">bookStoreHome.jsp</result>
@@ -54,6 +67,16 @@
     	<!-- View a book -->
     	<action name="viewBook" class="com.bookstore.view.ManageBooks" method="fetchBook">
     		<result name="success">viewBook.jsp</result>
+ 		</action>
+ 		
+    	<!-- Add book to Cart -->
+    	<action name="addToCart" class="com.bookstore.view.CartController" method="addToCart">
+    		<result name="success">viewCart.jsp</result>
+ 		</action>
+ 		
+    	<!-- Open Order Page -->
+    	<action name="placeOrder" class="com.bookstore.view.OrderController" method="fetchCustomer">
+    		<result name="success">confirmOrder.jsp</result>
  		</action>
         
     </package>

@@ -5,6 +5,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@NamedQueries({
+	@NamedQuery(name="LineItem.findByCartId", query="select o from LineItem o where o.cart.id=:cart_id"),
+})
 
 @Entity
 public class LineItem {
@@ -56,6 +62,14 @@ public class LineItem {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
 	}
 	
 }

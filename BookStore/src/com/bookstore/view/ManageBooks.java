@@ -68,6 +68,7 @@ public class ManageBooks implements Preparable{
 		return category;
 	}
 	
+	//Get Book object
 	public String fetchBook(){
 		int id = Integer.parseInt(bookId);
 		book = manageSessionBeanLocal.findBookById(id);

@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
+import com.bookstore.entity.LineItem;
 
 @Stateless
 public class ManageSessionBean implements ManageSessionBeanLocal {
@@ -80,15 +81,30 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 		Category category = (Category) entityManager.createNamedQuery("Category.findById").setParameter("category_id", category_id).getSingleResult();
 		return category;
 	}
-
+	
+	//Find a book by its ID
 	public Book findBookById(int book_id) {
 		Book book = (Book) entityManager.createNamedQuery("Book.findById").setParameter("book_id", book_id).getSingleResult();
 		return book;
 	}
-
+	
+	//Return a customer object by email, used for authentication purposes.
 	public Customer authenticate(String email) {
 		Customer customer = (Customer) entityManager.createNamedQuery("Customer.authenticate").setParameter("email", email).getSingleResult();
 		return customer;
+	}
+	
+	//Return a list of line items in a cart  
+	@SuppressWarnings("unchecked")
+	public List<LineItem> findLineItemByCart(int cartId) {
+		List<LineItem> lineItems = new ArrayList<LineItem>();
+		try{
+			lineItems = (List<LineItem>) entityManager.createNamedQuery("LineItem.findByCartId").setParameter("cart_id", cartId).getResultList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return lineItems;
 	}
 
 }

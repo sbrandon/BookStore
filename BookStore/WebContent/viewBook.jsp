@@ -25,5 +25,10 @@
 			<td><s:property value="book.price"/></td>
 		</tr>
 	</table>
+	<s:form action="addToCart">
+		<s:textfield name="quantity" placeholder="Enter Quantity"></s:textfield>
+		<s:hidden name="bookId" value="%{book.id}"/>
+		<s:submit type="button">Add To Cart</s:submit>
+	</s:form>
 </body>
 </html>
