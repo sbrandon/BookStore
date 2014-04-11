@@ -22,7 +22,7 @@ public class LineItem {
 	@ManyToOne
 	private Cart cart;
 	@ManyToOne
-	private Order order;
+	private CustomerOrder order;
 	@ManyToOne
 	private Book book;
 	
@@ -56,11 +56,11 @@ public class LineItem {
 		this.cart = cart;
 	}
 
-	public Order getOrder() {
+	public CustomerOrder getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(CustomerOrder order) {
 		this.order = order;
 	}
 

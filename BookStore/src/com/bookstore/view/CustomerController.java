@@ -1,11 +1,14 @@
 package com.bookstore.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
@@ -14,8 +17,10 @@ import com.bookstore.session.ManageSessionBeanLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
-public class CustomerLogIn implements Preparable {
+public class CustomerController implements Preparable, SessionAware {
 	
+	private String firstName;
+	private String lastName;
 	private String email;
 	private String password;
 	private Customer customer;
@@ -47,6 +52,22 @@ public class CustomerLogIn implements Preparable {
 		}
 	}
 	
+	//Register a new user
+	public String register(){
+		HashMap<String, String> map = passwordHash.hashPassword(password);
+		Customer customer = new Customer();
+		customer.setFirstName(firstName);
+		customer.setLastName(lastName);
+		customer.setEmail(email);
+		customer.setPassword(map.get("password"));
+		customer.setSalt(map.get("salt"));
+		manageSessionBeanLocal.persist(customer);
+		session = ActionContext.getContext().getSession();
+		session.put("customer", customer);
+		listCategories();
+		return "success";
+	}
+		
 	//Populate list of categories
 	public void listCategories(){
 		categories = manageSessionBeanLocal.getCategories();
@@ -108,6 +129,22 @@ public class CustomerLogIn implements Preparable {
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 }

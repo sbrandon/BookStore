@@ -36,7 +36,10 @@ public class Customer {
 	private String county;
 	@OneToMany
 	@JoinColumn(name="customer_id")
-	private List<Order> orders;
+	private List<CustomerOrder> orders;
+	@OneToMany
+	@JoinColumn(name="customer_id")
+	private List<Review> reviews;
 	
 	//Constructor
 	public Customer(){
@@ -148,11 +151,11 @@ public class Customer {
 		this.id = id;
 	}
 
-	public List<Order> getOrders() {
+	public List<CustomerOrder> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<CustomerOrder> orders) {
 		this.orders = orders;
 	}
 	

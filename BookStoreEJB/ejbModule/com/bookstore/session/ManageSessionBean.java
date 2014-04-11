@@ -11,6 +11,7 @@ import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.LineItem;
+import com.bookstore.entity.Review;
 
 @Stateless
 public class ManageSessionBean implements ManageSessionBeanLocal {
@@ -21,6 +22,12 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 	//Persist object to database
 	public boolean persist(Object object) {
 		entityManager.persist(object);
+		return true;
+	}
+	
+	//Merge Object
+	public boolean merge(Object object){
+		entityManager.merge(object);
 		return true;
 	}
 	
@@ -94,7 +101,7 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 		return customer;
 	}
 	
-	//Return a list of line items in a cart  
+	//Return a list of line items in a cart. 
 	@SuppressWarnings("unchecked")
 	public List<LineItem> findLineItemByCart(int cartId) {
 		List<LineItem> lineItems = new ArrayList<LineItem>();
@@ -105,6 +112,24 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 			e.printStackTrace();
 		}
 		return lineItems;
+	}
+	
+	//Delete Cart
+	public boolean deleteCart(int cartId) {
+		entityManager.createNamedQuery("Cart.remove").setParameter("cart_id", cartId).executeUpdate();
+		return true;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Review> getBookReviews(int bookId) {
+		List<Review> reviews = new ArrayList<Review>();
+		try{
+			reviews = (List<Review>) entityManager.createNamedQuery("Review.findByBook").setParameter("book_id", bookId).getResultList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return reviews;
 	}
 
 }

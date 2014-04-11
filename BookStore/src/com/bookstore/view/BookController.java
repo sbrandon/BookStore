@@ -1,7 +1,6 @@
 package com.bookstore.view;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,11 +9,12 @@ import javax.naming.InitialContext;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
+import com.bookstore.entity.Review;
 import com.bookstore.session.ManageSessionBeanLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageBooks implements Preparable{
+public class BookController implements Preparable{
 	
 	private Map<String, Object> session;
 	private ManageSessionBeanLocal manageSessionBeanLocal;
@@ -29,6 +29,10 @@ public class ManageBooks implements Preparable{
 	private List <Category> categories = new ArrayList<Category>();
 	private Book book;
 	private String bookId;
+	private String searchObject;
+	private String searchString;
+	private List<Book> books = new ArrayList<Book>();
+	private List<Review> reviews = new ArrayList<Review>();
 	
 	@Override
 	public void prepare() throws Exception {
@@ -72,6 +76,26 @@ public class ManageBooks implements Preparable{
 	public String fetchBook(){
 		int id = Integer.parseInt(bookId);
 		book = manageSessionBeanLocal.findBookById(id);
+		getBookReviews(id);
+		return "success";
+	}
+	
+	//Get Book Reviews
+	public void getBookReviews(int bookId){
+		reviews = manageSessionBeanLocal.getBookReviews(bookId);
+	}
+	
+	//Search Books
+	public String searchBooks(){
+		if(searchObject.equals("author")){
+			books = manageSessionBeanLocal.findBookByAuthor(searchString);
+		}
+		else if(searchObject.equals("title")){
+			books = manageSessionBeanLocal.findBookByTitle(searchString);
+		}
+		else{
+			books = manageSessionBeanLocal.findBookByCategory(searchString);
+		}
 		return "success";
 	}
 	
@@ -162,6 +186,38 @@ public class ManageBooks implements Preparable{
 
 	public void setBookId(String bookId) {
 		this.bookId = bookId;
+	}
+
+	public String getSearchObject() {
+		return searchObject;
+	}
+
+	public void setSearchObject(String searchObject) {
+		this.searchObject = searchObject;
+	}
+
+	public String getSearchString() {
+		return searchString;
+	}
+
+	public void setSearchString(String searchString) {
+		this.searchString = searchString;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 	
 }

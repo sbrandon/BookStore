@@ -45,10 +45,15 @@ public class CartController implements Preparable {
 			manageSessionBeanLocal.persist(cart);
 		}
 		if(fetchBook() != null){
-			newLineItem(fetchBook());
-			listCartItems();
+			if(newLineItem(fetchBook())){
+				listCartItems();
+				return "success";
+			}
+			else{
+				return "error";
+			}
 		}
-		return "success";
+		return "error";
 	}
 	
 	//Get Book Object
@@ -59,13 +64,19 @@ public class CartController implements Preparable {
 	}
 	
 	//Create LineItem
-	public void newLineItem(Book book){
+	public boolean newLineItem(Book book){
 		int purchaseQuantity = Integer.parseInt(quantity);
-		LineItem lineItem = new LineItem();
-		lineItem.setCart(cart);
-		lineItem.setBook(book);
-		lineItem.setQuantity(purchaseQuantity);
-		manageSessionBeanLocal.persist(lineItem);
+		if(book.getStockQuantity() >= purchaseQuantity){
+			LineItem lineItem = new LineItem();
+			lineItem.setCart(cart);
+			lineItem.setBook(book);
+			lineItem.setQuantity(purchaseQuantity);
+			manageSessionBeanLocal.persist(lineItem);
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 	//Get the lineItems with this cart ID

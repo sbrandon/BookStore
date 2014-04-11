@@ -1,5 +1,5 @@
 package com.bookstore.entity;
-
+	
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Order {
+public class CustomerOrder {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -23,7 +23,7 @@ public class Order {
 	private Customer customer;
 	
 	//Constructor
-	public Order(){
+	public CustomerOrder(){
 		
 	}
 

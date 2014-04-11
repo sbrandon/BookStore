@@ -38,6 +38,9 @@ public class Book {
 	@OneToMany
 	@JoinColumn(name="book_id")
 	private List<LineItem> lineitems;
+	@OneToMany
+	@JoinColumn(name="book_id")
+	private List<Review> reviews;
 
 	//Constructor
 	public Book(){

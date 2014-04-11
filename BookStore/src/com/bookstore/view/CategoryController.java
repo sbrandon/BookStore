@@ -10,7 +10,7 @@ import com.bookstore.session.ManageSessionBeanLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
-public class ManageCategories implements Preparable{
+public class CategoryController implements Preparable{
 	
 	private ManageSessionBeanLocal manageSessionBeanLocal;
 	private Map<String, Object> session;

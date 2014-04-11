@@ -8,6 +8,7 @@
 </head>
 <body>
 	<h1>Home Page of Book Shop</h1>
+	<strong>Hi, ${customer.firstName}&nbsp;${customer.lastName}</strong>
 	<h2>Select A Category</h2>
 	<table>
 		<tr>

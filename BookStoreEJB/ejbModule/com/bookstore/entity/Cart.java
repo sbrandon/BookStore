@@ -7,7 +7,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+
+@NamedQueries({
+	@NamedQuery(name = "Cart.remove", query = "delete from Cart o where o.id=:cart_id"),
+})
 
 @Entity
 public class Cart {

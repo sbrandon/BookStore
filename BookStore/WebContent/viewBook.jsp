@@ -30,5 +30,23 @@
 		<s:hidden name="bookId" value="%{book.id}"/>
 		<s:submit type="button">Add To Cart</s:submit>
 	</s:form>
+	<s:form action="addReview">
+		<s:hidden name="bookId" value="%{book.id}"/>
+		<s:textfield name="rating" placeholder="Rating 1 - 5 *"></s:textfield>
+		<s:textfield name="review" placeholder="Good or Bad ?"></s:textfield>
+		<s:submit type="button">Leave Review</s:submit>
+	</s:form>
+	<h2>Reviews</h2>
+	<ul>
+		<s:iterator value="reviews">
+			<li>
+				<ul>
+					<li><s:property value="customer.firstName"/>&nbsp;<s:property value="customer.lastName"/></li>
+					<li><s:property value="rating"/></li>
+					<li><s:property value="review"/></li>
+				</ul>
+			</li>	
+		</s:iterator>
+	</ul>
 </body>
 </html>
