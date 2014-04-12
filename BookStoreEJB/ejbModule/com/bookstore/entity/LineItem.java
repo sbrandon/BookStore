@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 
 @NamedQueries({
 	@NamedQuery(name="LineItem.findByCartId", query="select o from LineItem o where o.cart.id=:cart_id"),
+	@NamedQuery(name = "LineItem.remove", query = "delete from LineItem o where o.id=:item_id"),
 })
 
 @Entity
@@ -25,6 +26,7 @@ public class LineItem {
 	private CustomerOrder order;
 	@ManyToOne
 	private Book book;
+	private double lineTotal;
 	
 	//Constructor
 	public LineItem(){
@@ -70,6 +72,14 @@ public class LineItem {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+
+	public double getLineTotal() {
+		return lineTotal;
+	}
+
+	public void setLineTotal(double lineTotal) {
+		this.lineTotal = lineTotal;
 	}
 	
 }

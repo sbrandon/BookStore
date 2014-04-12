@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 @NamedQueries({
 	@NamedQuery(name = "Customer.findAll", query="select o from Customer o"),
@@ -157,6 +159,14 @@ public class Customer {
 
 	public void setOrders(List<CustomerOrder> orders) {
 		this.orders = orders;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 	
 }

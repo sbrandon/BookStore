@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
+import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
 import com.bookstore.session.ManageSessionBeanLocal;
 import com.opensymphony.xwork2.ActionContext;
@@ -33,10 +34,12 @@ public class BookController implements Preparable{
 	private String searchString;
 	private List<Book> books = new ArrayList<Book>();
 	private List<Review> reviews = new ArrayList<Review>();
+	private Customer customer;
 	
 	@Override
 	public void prepare() throws Exception {
 		session = ActionContext.getContext().getSession();
+		customer = (Customer) session.get("customer");
 		try{
 			Context context = new InitialContext();
 			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
@@ -218,6 +221,14 @@ public class BookController implements Preparable{
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 }

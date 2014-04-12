@@ -87,7 +87,7 @@
  		</action>
  		
     	<!-- A link to the home page of the shop -->
-    	<action name="confirmOrder">
+    	<action name="continueShopping">
     		<result name="success">bookStoreHome.jsp</result>
  		</action>
     	
@@ -102,6 +102,21 @@
     		<!-- <interceptor-ref name="customer-auth"></interceptor-ref> -->
     		<result name="success">viewBook.jsp</result>
  		</action>
+ 		
+    	<!-- Log out customer -->
+        <action name="logout" class="com.bookstore.view.CustomerController" method="logout">
+    		<result name="success">index.jsp</result>
+ 		</action>
+ 		
+        <!-- A link to the sign in page -->
+    	<action name="signin">
+    		<result name="success">index.jsp</result>
+ 		</action>
+ 		
+    	<!-- Remove an item from the shopping cart -->
+    	<action name="removeCartItem" class="com.bookstore.view.CartController" method="removeItem">
+    	    <result name="success">viewCart.jsp</result>
+    	</action>
         
     </package>
     

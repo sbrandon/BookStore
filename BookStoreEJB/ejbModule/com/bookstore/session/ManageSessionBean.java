@@ -120,6 +120,7 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 		return true;
 	}
 
+	//Get reviews belonging to a book
 	@SuppressWarnings("unchecked")
 	public List<Review> getBookReviews(int bookId) {
 		List<Review> reviews = new ArrayList<Review>();
@@ -131,5 +132,13 @@ public class ManageSessionBean implements ManageSessionBeanLocal {
 		}
 		return reviews;
 	}
+	
+	//Remove a lineItem with matching ID
+	public boolean removeLineItem(int itemId) {
+		entityManager.createNamedQuery("LineItem.remove").setParameter("item_id", itemId).executeUpdate();
+		return true;
+	}
+	
+	
 
 }

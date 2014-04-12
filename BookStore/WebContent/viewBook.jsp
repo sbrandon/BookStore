@@ -1,13 +1,4 @@
-<%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>TITLE</title>
-</head>
-<body>
+<%@ include file="header.jsp" %>
 	<h1>Show Book</h1>
 	<table border="1">
 		<tr>
@@ -26,13 +17,26 @@
 		</tr>
 	</table>
 	<s:form action="addToCart">
-		<s:textfield name="quantity" placeholder="Enter Quantity"></s:textfield>
+		<select name="quantity">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+		</select>
 		<s:hidden name="bookId" value="%{book.id}"/>
 		<s:submit type="button">Add To Cart</s:submit>
 	</s:form>
 	<s:form action="addReview">
 		<s:hidden name="bookId" value="%{book.id}"/>
-		<s:textfield name="rating" placeholder="Rating 1 - 5 *"></s:textfield>
+		<select name="rating">
+			<option value="1">1*</option>
+			<option value="2">2*</option>
+			<option value="3">3*</option>
+			<option value="4">4*</option>
+			<option value="5">5*</option>
+		</select>
 		<s:textfield name="review" placeholder="Good or Bad ?"></s:textfield>
 		<s:submit type="button">Leave Review</s:submit>
 	</s:form>
@@ -42,11 +46,11 @@
 			<li>
 				<ul>
 					<li><s:property value="customer.firstName"/>&nbsp;<s:property value="customer.lastName"/></li>
-					<li><s:property value="rating"/></li>
-					<li><s:property value="review"/></li>
+					<li>Rating:&nbsp;<s:property value="rating"/></li>
+					<li>Review:&nbsp;<s:property value="review"/></li>
+					<li>Left at:&nbsp;<s:property value="date"/></li>
 				</ul>
 			</li>	
 		</s:iterator>
 	</ul>
-</body>
-</html>
+<%@ include file="footer.jsp" %>

@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Cart;
+import com.bookstore.entity.Customer;
 import com.bookstore.entity.LineItem;
 import com.bookstore.session.ManageSessionBeanLocal;
 import com.opensymphony.xwork2.ActionContext;
@@ -19,12 +20,17 @@ public class CartController implements Preparable {
 	private ManageSessionBeanLocal manageSessionBeanLocal;
 	private Map<String, Object> session;
 	private Cart cart;
+	private String lineItemId;
 	private String bookId;
 	private String quantity;
 	private List<LineItem> lineItems = new ArrayList<LineItem>();
+	private Customer customer;
+	private double total;
 	
 	public void prepare() throws Exception {
 		session = ActionContext.getContext().getSession();
+		customer = (Customer) session.get("customer");
+		cart = (Cart) session.get("cart");
 		try{
 			Context context = new InitialContext();
 			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
@@ -36,10 +42,7 @@ public class CartController implements Preparable {
 	
 	//Add a book to cart
 	public String addToCart(){
-		if(session.get("cart") != null){
-			cart = (Cart) session.get("cart");
-		}
-		else{
+		if(cart == null){
 			cart = new Cart();
 			session.put("cart", cart);
 			manageSessionBeanLocal.persist(cart);
@@ -65,12 +68,24 @@ public class CartController implements Preparable {
 	
 	//Create LineItem
 	public boolean newLineItem(Book book){
+		lineItems = manageSessionBeanLocal.findLineItemByCart(cart.getId());
 		int purchaseQuantity = Integer.parseInt(quantity);
 		if(book.getStockQuantity() >= purchaseQuantity){
+			for(LineItem lineItem : lineItems){
+				if(lineItem.getBook().getId() == book.getId()){
+					int quantity = lineItem.getQuantity();
+					quantity += purchaseQuantity;
+					lineItem.setQuantity(quantity);
+					lineItem.setLineTotal(book.getPrice() * purchaseQuantity);
+					manageSessionBeanLocal.merge(lineItem);
+					return true;
+				}
+			}
 			LineItem lineItem = new LineItem();
 			lineItem.setCart(cart);
 			lineItem.setBook(book);
 			lineItem.setQuantity(purchaseQuantity);
+			lineItem.setLineTotal(book.getPrice() * purchaseQuantity);
 			manageSessionBeanLocal.persist(lineItem);
 			return true;
 		}
@@ -82,6 +97,23 @@ public class CartController implements Preparable {
 	//Get the lineItems with this cart ID
 	public void listCartItems(){
 		lineItems = manageSessionBeanLocal.findLineItemByCart(cart.getId());
+		calculateTotal();
+	}
+	
+	//Calculate the total value of items in the cart
+	public void calculateTotal(){
+		total = 0.0;
+		for(LineItem lineItem : lineItems){
+			total += lineItem.getLineTotal();
+		}
+	}
+	
+	//Remove a line item from the cart
+	public String removeItem(){
+		int itemId = Integer.parseInt(lineItemId);
+		manageSessionBeanLocal.removeLineItem(itemId);
+		listCartItems();
+		return "success";
 	}
 	
 	//Getters & Setters
@@ -101,6 +133,14 @@ public class CartController implements Preparable {
 		this.bookId = bookId;
 	}
 
+	public List<LineItem> getLineItems() {
+		return lineItems;
+	}
+
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
+
 	public String getQuantity() {
 		return quantity;
 	}
@@ -109,12 +149,28 @@ public class CartController implements Preparable {
 		this.quantity = quantity;
 	}
 
-	public List<LineItem> getLineItems() {
-		return lineItems;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setLineItems(List<LineItem> lineItems) {
-		this.lineItems = lineItems;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public String getLineItemId() {
+		return lineItemId;
+	}
+
+	public void setLineItemId(String lineItemId) {
+		this.lineItemId = lineItemId;
 	}
 
 }

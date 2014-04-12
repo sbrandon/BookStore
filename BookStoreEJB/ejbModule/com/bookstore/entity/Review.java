@@ -1,7 +1,5 @@
 package com.bookstore.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +20,7 @@ public class Review {
 	private int id;
 	private String review;
 	private int rating;
-	private Date date;
+	private String date;
 	@ManyToOne
 	private Customer customer;
 	@ManyToOne
@@ -58,11 +56,11 @@ public class Review {
 		this.rating = rating;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

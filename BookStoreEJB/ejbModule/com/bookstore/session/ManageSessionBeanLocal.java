@@ -28,6 +28,7 @@ public interface ManageSessionBeanLocal {
 	public Customer authenticate(String email);
 	//LineItem
 	public List<LineItem> findLineItemByCart(int cartId);
+	public boolean removeLineItem(int itemId);
 	//Cart
 	public boolean deleteCart(int cartId);
 	//Review

@@ -52,6 +52,14 @@ public class CustomerController implements Preparable, SessionAware {
 		}
 	}
 	
+	//Logout User
+	public String logout(){
+		session = ActionContext.getContext().getSession();
+		session.remove("customer");
+		session.clear();
+		return "success";
+	}
+	
 	//Register a new user
 	public String register(){
 		HashMap<String, String> map = passwordHash.hashPassword(password);
