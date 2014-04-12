@@ -1,11 +1,11 @@
+/*
+ * Class OrderController
+ */
 package com.bookstore.view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Cart;
@@ -13,12 +13,13 @@ import com.bookstore.entity.Customer;
 import com.bookstore.entity.LineItem;
 import com.bookstore.entity.CustomerOrder;
 import com.bookstore.session.SessionBeanFacadeLocal;
-import com.opensymphony.xwork2.ActionContext;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.Preparable;
 
 public class OrderController implements Preparable{
 	
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private Map<String, Object> session;
 	private Customer customer;
 	private Cart cart;
@@ -31,16 +32,10 @@ public class OrderController implements Preparable{
 	
 	@Override
 	public void prepare() throws Exception {
-		session = ActionContext.getContext().getSession();
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
 		cart = (Cart) session.get("cart");
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	//Confirm Order
@@ -58,26 +53,26 @@ public class OrderController implements Preparable{
 		customer.setAddressLine3(address3);
 		customer.setTown(town);
 		customer.setPhoneNumber(phoneNumber);
-		manageSessionBeanLocal.merge(customer);
+		ejbSessionBean.merge(customer);
 	}
 	
 	//Create a new order
 	public CustomerOrder createOrder(){
 		CustomerOrder order = new CustomerOrder();
 		order.setCustomer(customer);
-		manageSessionBeanLocal.persist(order);
+		ejbSessionBean.persist(order);
 		return order;
 	}
 	
 	//Add LineItems to order
 	public void addLineItems(CustomerOrder order){
 		List <LineItem> lineItems = new ArrayList<LineItem>();
-		lineItems = manageSessionBeanLocal.findLineItemByCart(cart.getId());
+		lineItems = ejbSessionBean.findLineItemByCart(cart.getId());
 		for(LineItem lineItem : lineItems){
 			lineItem.setOrder(order);
 			lineItem.setCart(null);
 			updateStockLevels(lineItem.getBook(), lineItem.getQuantity());
-			manageSessionBeanLocal.merge(lineItem);
+			ejbSessionBean.merge(lineItem);
 		}
 	}
 	
@@ -86,12 +81,12 @@ public class OrderController implements Preparable{
 		int originalStock = book.getStockQuantity();
 		int newStock = originalStock - quantity;
 		book.setStockQuantity(newStock);
-		manageSessionBeanLocal.merge(book);
+		ejbSessionBean.merge(book);
 	}
 	
 	//Remove Cart
 	public void removeCart(){
-		manageSessionBeanLocal.deleteCart(cart.getId());
+		ejbSessionBean.deleteCart(cart.getId());
 	}
 	
 	//Getters & Setters

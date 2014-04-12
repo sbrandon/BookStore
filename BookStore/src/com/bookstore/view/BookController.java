@@ -1,24 +1,25 @@
+/*
+ * Class BookController 
+ */
 package com.bookstore.view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
 import com.bookstore.session.SessionBeanFacadeLocal;
-import com.opensymphony.xwork2.ActionContext;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.Preparable;
 
 public class BookController implements Preparable{
 	
 	private Map<String, Object> session;
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private String title;
 	private String author;
 	private String isbn;
@@ -38,19 +39,13 @@ public class BookController implements Preparable{
 	
 	@Override
 	public void prepare() throws Exception {
-		session = ActionContext.getContext().getSession();
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	public String listCategories(){
-		categories = manageSessionBeanLocal.getCategories();
+		categories = ejbSessionBean.getCategories();
 		return "success";
 	}
 	
@@ -65,39 +60,39 @@ public class BookController implements Preparable{
 		book.setCategory(findCategory(categoryId));
 		book.setImage(image);
 		book.setStockQuantity(stockQuantity);
-		manageSessionBeanLocal.persist(book);
+		ejbSessionBean.persist(book);
 		return "success";
 	}
 	
 	//Return a category object from its id
 	public Category findCategory(int category_id){
-		Category category = manageSessionBeanLocal.findCategoryById(category_id);
+		Category category = ejbSessionBean.findCategoryById(category_id);
 		return category;
 	}
 	
 	//Get Book object
 	public String fetchBook(){
 		int id = Integer.parseInt(bookId);
-		book = manageSessionBeanLocal.findBookById(id);
+		book = ejbSessionBean.findBookById(id);
 		getBookReviews(id);
 		return "success";
 	}
 	
 	//Get Book Reviews
 	public void getBookReviews(int bookId){
-		reviews = manageSessionBeanLocal.getBookReviews(bookId);
+		reviews = ejbSessionBean.getBookReviews(bookId);
 	}
 	
 	//Search Books
 	public String searchBooks(){
 		if(searchObject.equals("author")){
-			books = manageSessionBeanLocal.findBookByAuthor(searchString);
+			books = ejbSessionBean.findBookByAuthor(searchString);
 		}
 		else if(searchObject.equals("title")){
-			books = manageSessionBeanLocal.findBookByTitle(searchString);
+			books = ejbSessionBean.findBookByTitle(searchString);
 		}
 		else{
-			books = manageSessionBeanLocal.findBookByCategory(searchString);
+			books = ejbSessionBean.findBookByCategory(searchString);
 		}
 		return "success";
 	}

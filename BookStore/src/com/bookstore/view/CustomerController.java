@@ -1,3 +1,6 @@
+/*
+ * Class CustomerController
+ */
 package com.bookstore.view;
 
 import java.util.ArrayList;
@@ -5,15 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.security.PasswordHash;
 import com.bookstore.session.SessionBeanFacadeLocal;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
@@ -24,24 +26,18 @@ public class CustomerController implements Preparable, SessionAware {
 	private String email;
 	private String password;
 	private Customer customer;
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private PasswordHash passwordHash = new PasswordHash();
 	private Map<String, Object> session;
 	private List<Category> categories = new ArrayList<Category>();
 	
 	public void prepare(){
-		session = ActionContext.getContext().getSession();
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 	}
 	
 	public String login(){
-		customer = manageSessionBeanLocal.authenticate(email);
+		customer = ejbSessionBean.authenticate(email);
 		if(passwordHash.authenticate(customer.getPassword(), customer.getSalt(), password)){
 			session.put("customer", customer);
 			listCategories();
@@ -69,7 +65,7 @@ public class CustomerController implements Preparable, SessionAware {
 		customer.setEmail(email);
 		customer.setPassword(map.get("password"));
 		customer.setSalt(map.get("salt"));
-		manageSessionBeanLocal.persist(customer);
+		ejbSessionBean.persist(customer);
 		session = ActionContext.getContext().getSession();
 		session.put("customer", customer);
 		listCategories();
@@ -78,7 +74,7 @@ public class CustomerController implements Preparable, SessionAware {
 		
 	//Populate list of categories
 	public void listCategories(){
-		categories = manageSessionBeanLocal.getCategories();
+		categories = ejbSessionBean.getCategories();
 	}
 
 	//Getters & Setters
@@ -104,15 +100,6 @@ public class CustomerController implements Preparable, SessionAware {
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
-	}
-
-	public SessionBeanFacadeLocal getManageSessionBeanLocal() {
-		return manageSessionBeanLocal;
-	}
-
-	public void setManageSessionBeanLocal(
-			SessionBeanFacadeLocal manageSessionBeanLocal) {
-		this.manageSessionBeanLocal = manageSessionBeanLocal;
 	}
 
 	public PasswordHash getPasswordHash() {

@@ -1,23 +1,24 @@
+/*
+ * Class CartController
+ */
 package com.bookstore.view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Cart;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.LineItem;
 import com.bookstore.session.SessionBeanFacadeLocal;
-import com.opensymphony.xwork2.ActionContext;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.Preparable;
 
 public class CartController implements Preparable {
 	
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private Map<String, Object> session;
 	private Cart cart;
 	private String lineItemId;
@@ -28,16 +29,10 @@ public class CartController implements Preparable {
 	private double total;
 	
 	public void prepare() throws Exception {
-		session = ActionContext.getContext().getSession();
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
 		cart = (Cart) session.get("cart");
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	//Add a book to cart
@@ -45,7 +40,7 @@ public class CartController implements Preparable {
 		if(cart == null){
 			cart = new Cart();
 			session.put("cart", cart);
-			manageSessionBeanLocal.persist(cart);
+			ejbSessionBean.persist(cart);
 		}
 		if(fetchBook() != null){
 			if(newLineItem(fetchBook())){
@@ -62,13 +57,13 @@ public class CartController implements Preparable {
 	//Get Book Object
 	public Book fetchBook(){
 		int id = Integer.parseInt(bookId);
-		Book book = manageSessionBeanLocal.findBookById(id);
+		Book book = ejbSessionBean.findBookById(id);
 		return book;
 	}
 	
 	//Create LineItem
 	public boolean newLineItem(Book book){
-		lineItems = manageSessionBeanLocal.findLineItemByCart(cart.getId());
+		lineItems = ejbSessionBean.findLineItemByCart(cart.getId());
 		int purchaseQuantity = Integer.parseInt(quantity);
 		if(book.getStockQuantity() >= purchaseQuantity){
 			for(LineItem lineItem : lineItems){
@@ -77,7 +72,7 @@ public class CartController implements Preparable {
 					quantity += purchaseQuantity;
 					lineItem.setQuantity(quantity);
 					lineItem.setLineTotal(book.getPrice() * purchaseQuantity);
-					manageSessionBeanLocal.merge(lineItem);
+					ejbSessionBean.merge(lineItem);
 					return true;
 				}
 			}
@@ -86,7 +81,7 @@ public class CartController implements Preparable {
 			lineItem.setBook(book);
 			lineItem.setQuantity(purchaseQuantity);
 			lineItem.setLineTotal(book.getPrice() * purchaseQuantity);
-			manageSessionBeanLocal.persist(lineItem);
+			ejbSessionBean.persist(lineItem);
 			return true;
 		}
 		else{
@@ -96,7 +91,7 @@ public class CartController implements Preparable {
 	
 	//Get the lineItems with this cart ID
 	public void listCartItems(){
-		lineItems = manageSessionBeanLocal.findLineItemByCart(cart.getId());
+		lineItems = ejbSessionBean.findLineItemByCart(cart.getId());
 		calculateTotal();
 	}
 	
@@ -111,7 +106,7 @@ public class CartController implements Preparable {
 	//Remove a line item from the cart
 	public String removeItem(){
 		int itemId = Integer.parseInt(lineItemId);
-		manageSessionBeanLocal.removeLineItem(itemId);
+		ejbSessionBean.removeLineItem(itemId);
 		listCartItems();
 		return "success";
 	}

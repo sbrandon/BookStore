@@ -1,41 +1,36 @@
+/*
+ * Class CategoryController
+ */
 package com.bookstore.view;
 
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.session.SessionBeanFacadeLocal;
-import com.opensymphony.xwork2.ActionContext;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.Preparable;
 
 public class CategoryController implements Preparable{
 	
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private Map<String, Object> session;
 	private String categoryTitle;
 	private Customer customer;
 
 	@Override
 	public void prepare() throws Exception {
-		session = ActionContext.getContext().getSession();
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	//Persist Category to Database
 	public String addCategory(){
 		Category category = new Category();
 		category.setCategoryTitle(categoryTitle);
-		manageSessionBeanLocal.persist(category);
+		ejbSessionBean.persist(category);
 		return "success";
 	}
 	

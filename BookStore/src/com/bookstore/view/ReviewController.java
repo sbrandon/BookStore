@@ -1,3 +1,6 @@
+/*
+ * Class ReviewController
+ */
 package com.bookstore.view;
 
 import java.text.DateFormatSymbols;
@@ -6,19 +9,17 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
 import com.bookstore.session.SessionBeanFacadeLocal;
-import com.opensymphony.xwork2.ActionContext;
+import com.bookstore.sessionFactory.EjbSessionBeanFactory;
+import com.bookstore.sessionFactory.WebSessionFactory;
 import com.opensymphony.xwork2.Preparable;
 
 public class ReviewController implements Preparable {
 	
-	private SessionBeanFacadeLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal ejbSessionBean;
 	private Map<String, Object> session;
 	private Customer customer;
 	private String rating;
@@ -28,15 +29,9 @@ public class ReviewController implements Preparable {
 	private List<Review> reviews = new ArrayList<Review>();
 	
 	public void prepare() throws Exception {
-		session = ActionContext.getContext().getSession();
+		session = WebSessionFactory.getWebSessionInstance();
+		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
-		try{
-			Context context = new InitialContext();
-			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
 	}
 	
 	//Add a review. must relate a book and person.
@@ -50,7 +45,7 @@ public class ReviewController implements Preparable {
 		bookReview.setCustomer(customer);
 		bookReview.setBook(book);
 		bookReview.setDate(getDate());
-		manageSessionBeanLocal.persist(bookReview);
+		ejbSessionBean.persist(bookReview);
 		getBookReviews(id);
 		return "success";
 	}
@@ -74,12 +69,12 @@ public class ReviewController implements Preparable {
 	
 	//Get Book Reviews
 	public void getBookReviews(int bookId){
-		reviews = manageSessionBeanLocal.getBookReviews(bookId);
+		reviews = ejbSessionBean.getBookReviews(bookId);
 	}
 	
 	//Get book object with ID
 	public Book getBook(int bookId){
-		return manageSessionBeanLocal.findBookById(bookId);
+		return ejbSessionBean.findBookById(bookId);
 	}
 	
 	//List all reviews associated with book
