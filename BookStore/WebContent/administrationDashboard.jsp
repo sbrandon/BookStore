@@ -4,5 +4,6 @@
 	<ul>
 		<li><a href="<s:url action="categoriesForm"/>">Add new Categories</a></li>
 		<li><a href="<s:url action="booksForm"/>">Add new Books</a></li>
+		<li><a href="<s:url action="manageOrders"/>">Manage Orders</a></li>
 	</ul>
 <%@ include file="footer.jsp" %>

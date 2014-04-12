@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
+import com.bookstore.entity.CustomerOrder;
 import com.bookstore.entity.LineItem;
 import com.bookstore.entity.Review;
 
@@ -142,6 +143,13 @@ public class SessionBeanFacade implements SessionBeanFacadeLocal {
 	public boolean removeLineItem(int itemId) {
 		entityManager.createNamedQuery("LineItem.remove").setParameter("item_id", itemId).executeUpdate();
 		return true;
+	}
+
+	//Get all orders
+	@SuppressWarnings("unchecked")
+	public List<CustomerOrder> getOrders() {
+		List <CustomerOrder> orders = entityManager.createNamedQuery("CustomerOrder.findAll").getResultList();
+		return orders;
 	}
 	
 	

@@ -29,6 +29,7 @@ public class OrderController implements Preparable{
 	private String town;
 	private String county;
 	private String phoneNumber;
+	private List <CustomerOrder> orders = new ArrayList<CustomerOrder>();
 	
 	@Override
 	public void prepare() throws Exception {
@@ -74,6 +75,12 @@ public class OrderController implements Preparable{
 			updateStockLevels(lineItem.getBook(), lineItem.getQuantity());
 			ejbSessionBean.merge(lineItem);
 		}
+	}
+	
+	//Get all orders for administrator
+	public String getAllOrders(){
+		orders = ejbSessionBean.getOrders();
+		return "success";
 	}
 	
 	//Update Stock Levels of Book
@@ -144,6 +151,14 @@ public class OrderController implements Preparable{
 
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+
+	public List<CustomerOrder> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<CustomerOrder> orders) {
+		this.orders = orders;
 	}
 	
 }

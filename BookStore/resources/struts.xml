@@ -117,6 +117,12 @@
     	<action name="removeCartItem" class="com.bookstore.view.CartController" method="removeItem">
     	    <result name="success">viewCart.jsp</result>
     	</action>
+    	
+    	<!-- View All Orders -->
+    	<action name="manageOrders" class="com.bookstore.view.OrderController" method="getAllOrders">
+    	    <!-- ADMIN ONLY -->
+    	    <result name="success">manageOrders.jsp</result>
+    	</action>
         
     </package>
     

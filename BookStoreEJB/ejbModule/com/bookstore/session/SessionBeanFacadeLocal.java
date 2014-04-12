@@ -13,6 +13,7 @@ import javax.ejb.Local;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
+import com.bookstore.entity.CustomerOrder;
 import com.bookstore.entity.LineItem;
 import com.bookstore.entity.Review;
 
@@ -39,4 +40,6 @@ public interface SessionBeanFacadeLocal {
 	public boolean deleteCart(int cartId);
 	//Review
 	public List<Review> getBookReviews(int bookId);
+	//CustomerOrder
+	public List<CustomerOrder> getOrders();
 }

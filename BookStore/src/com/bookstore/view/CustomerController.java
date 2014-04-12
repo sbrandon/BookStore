@@ -36,6 +36,7 @@ public class CustomerController implements Preparable, SessionAware {
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 	}
 	
+	//Login
 	public String login(){
 		customer = ejbSessionBean.authenticate(email);
 		if(passwordHash.authenticate(customer.getPassword(), customer.getSalt(), password)){
