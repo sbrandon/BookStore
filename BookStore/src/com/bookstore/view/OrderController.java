@@ -12,13 +12,13 @@ import com.bookstore.entity.Cart;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.LineItem;
 import com.bookstore.entity.CustomerOrder;
-import com.bookstore.session.ManageSessionBeanLocal;
+import com.bookstore.session.SessionBeanFacadeLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
 public class OrderController implements Preparable{
 	
-	private ManageSessionBeanLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal manageSessionBeanLocal;
 	private Map<String, Object> session;
 	private Customer customer;
 	private Cart cart;
@@ -36,7 +36,7 @@ public class OrderController implements Preparable{
 		cart = (Cart) session.get("cart");
 		try{
 			Context context = new InitialContext();
-			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
+			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
 		}
 		catch(Exception e){
 			e.printStackTrace();

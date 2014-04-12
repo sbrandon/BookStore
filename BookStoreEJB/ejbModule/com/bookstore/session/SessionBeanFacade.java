@@ -1,3 +1,8 @@
+/*
+ * This class implements an interface to allow clients
+ * to execute operations on entity beans. This class forms 
+ * part of the Facade pattern.
+ */
 package com.bookstore.session;
 
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ import com.bookstore.entity.LineItem;
 import com.bookstore.entity.Review;
 
 @Stateless
-public class ManageSessionBean implements ManageSessionBeanLocal {
+public class SessionBeanFacade implements SessionBeanFacadeLocal {
 	
 	@PersistenceContext
 	private EntityManager entityManager;

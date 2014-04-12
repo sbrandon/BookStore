@@ -1,3 +1,9 @@
+/*
+ * This is an interface for the session bean which allows 
+ * the client to execute operations on the entity beans. 
+ * This interface forms part of the Facade pattern sometimes
+ * refered to as the session facade pattern in J2EE.
+ */
 package com.bookstore.session;
 
 import java.util.List;
@@ -11,7 +17,7 @@ import com.bookstore.entity.LineItem;
 import com.bookstore.entity.Review;
 
 @Local
-public interface ManageSessionBeanLocal {
+public interface SessionBeanFacadeLocal {
 	//Persist Object
 	public boolean persist(Object object);
 	//Merge Object

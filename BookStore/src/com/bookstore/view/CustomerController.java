@@ -13,7 +13,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.security.PasswordHash;
-import com.bookstore.session.ManageSessionBeanLocal;
+import com.bookstore.session.SessionBeanFacadeLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
@@ -24,7 +24,7 @@ public class CustomerController implements Preparable, SessionAware {
 	private String email;
 	private String password;
 	private Customer customer;
-	private ManageSessionBeanLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal manageSessionBeanLocal;
 	private PasswordHash passwordHash = new PasswordHash();
 	private Map<String, Object> session;
 	private List<Category> categories = new ArrayList<Category>();
@@ -33,7 +33,7 @@ public class CustomerController implements Preparable, SessionAware {
 		session = ActionContext.getContext().getSession();
 		try{
 			Context context = new InitialContext();
-			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
+			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -106,12 +106,12 @@ public class CustomerController implements Preparable, SessionAware {
 		this.customer = customer;
 	}
 
-	public ManageSessionBeanLocal getManageSessionBeanLocal() {
+	public SessionBeanFacadeLocal getManageSessionBeanLocal() {
 		return manageSessionBeanLocal;
 	}
 
 	public void setManageSessionBeanLocal(
-			ManageSessionBeanLocal manageSessionBeanLocal) {
+			SessionBeanFacadeLocal manageSessionBeanLocal) {
 		this.manageSessionBeanLocal = manageSessionBeanLocal;
 	}
 

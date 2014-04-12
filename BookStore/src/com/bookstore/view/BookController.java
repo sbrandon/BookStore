@@ -11,14 +11,14 @@ import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
-import com.bookstore.session.ManageSessionBeanLocal;
+import com.bookstore.session.SessionBeanFacadeLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
 public class BookController implements Preparable{
 	
 	private Map<String, Object> session;
-	private ManageSessionBeanLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal manageSessionBeanLocal;
 	private String title;
 	private String author;
 	private String isbn;
@@ -42,7 +42,7 @@ public class BookController implements Preparable{
 		customer = (Customer) session.get("customer");
 		try{
 			Context context = new InitialContext();
-			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
+			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
 		}
 		catch(Exception e){
 			e.printStackTrace();

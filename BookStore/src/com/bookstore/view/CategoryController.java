@@ -7,13 +7,13 @@ import javax.naming.InitialContext;
 
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
-import com.bookstore.session.ManageSessionBeanLocal;
+import com.bookstore.session.SessionBeanFacadeLocal;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.Preparable;
 
 public class CategoryController implements Preparable{
 	
-	private ManageSessionBeanLocal manageSessionBeanLocal;
+	private SessionBeanFacadeLocal manageSessionBeanLocal;
 	private Map<String, Object> session;
 	private String categoryTitle;
 	private Customer customer;
@@ -24,7 +24,7 @@ public class CategoryController implements Preparable{
 		customer = (Customer) session.get("customer");
 		try{
 			Context context = new InitialContext();
-			manageSessionBeanLocal = (ManageSessionBeanLocal) context.lookup("ManageSessionBean/local");
+			manageSessionBeanLocal = (SessionBeanFacadeLocal) context.lookup("ManageSessionBean/local");
 		}
 		catch(Exception e){
 			e.printStackTrace();
