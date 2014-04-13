@@ -1,7 +1,7 @@
 /*
  * Class CartController
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
 import java.util.ArrayList;
 import java.util.List;

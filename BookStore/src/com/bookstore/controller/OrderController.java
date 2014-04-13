@@ -1,7 +1,7 @@
 /*
  * Class OrderController
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +94,11 @@ public class OrderController implements Preparable{
 	//Remove Cart
 	public void removeCart(){
 		ejbSessionBean.deleteCart(cart.getId());
+	}
+	
+	//Blank method to allow view to get session values.
+	public String confirmOrder(){
+		return "success";
 	}
 	
 	//Getters & Setters

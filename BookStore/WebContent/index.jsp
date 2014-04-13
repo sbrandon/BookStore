@@ -14,4 +14,5 @@
 	<s:password name="password" placeholder="Password" cssClass="form-control"></s:password>
 	<s:submit type="button" >Log In</s:submit>
 </s:form>
+<a href="<s:url action="admin"/>">Administrator Log In</a>
 <%@ include file="footer.jsp" %>

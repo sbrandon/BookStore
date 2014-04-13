@@ -9,14 +9,14 @@
         
         <!-- Custom authentication interceptor is used to prevent users that are not logged in from performing actions -->
         <interceptors>
-		    <interceptor name="customer-auth" class="com.bookstore.interceptor.CustomerLoginInterceptor"></interceptor>
-		    <interceptor name="admin-auth" class="com.bookstore.interceptor.AdminLoginInterceptor"></interceptor>
-		    <interceptor-stack name="customer-stack">
-		        <interceptor-ref name="customer-auth"></interceptor-ref>
+		    <interceptor name="customerAuth" class="com.bookstore.interceptor.CustomerLoginInterceptor"></interceptor>
+		    <interceptor name="adminAuth" class="com.bookstore.interceptor.AdminLoginInterceptor"></interceptor>
+		    <interceptor-stack name="customerStack">
+		        <interceptor-ref name="customerAuth"></interceptor-ref>
 		        <interceptor-ref name="defaultStack"></interceptor-ref>
 		    </interceptor-stack>
-		    <interceptor-stack name="admin-stack">
-		        <interceptor-ref name="admin-auth"></interceptor-ref>
+		    <interceptor-stack name="adminStack">
+		        <interceptor-ref name="adminAuth"></interceptor-ref>
 		        <interceptor-ref name="defaultStack"></interceptor-ref>
 		    </interceptor-stack>
 		</interceptors>
@@ -26,19 +26,19 @@
         </global-results>
         
         <!-- Register a new user NOTE: there is no interceptor on this method because the user will not be logged in -->
-    	<action name="register" class="com.bookstore.view.CustomerController" method="register">
+    	<action name="register" class="com.bookstore.controller.CustomerController" method="register">
     		<result name="success">bookStoreHome.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
  		
     	<!-- Allow an existing user to log in -->
-    	<action name="login" class="com.bookstore.view.CustomerController" method="login">
+    	<action name="login" class="com.bookstore.controller.CustomerController" method="login">
     		<result name="success">bookStoreHome.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
  		
     	<!-- Search Books -->
-    	<action name="searchBooks" class="com.bookstore.view.BookController" method="searchBooks">
+    	<action name="searchBooks" class="com.bookstore.controller.BookController" method="searchBooks">
     		<result name="success">listBooks.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
@@ -50,39 +50,39 @@
  		</action>
  		
     	<!-- Open the Books Form -->
-    	<action name="booksForm" class="com.bookstore.view.BookController" method="listCategories">
+    	<action name="booksForm" class="com.bookstore.controller.BookController" method="listCategories">
     		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
     		<result name="success">bookForm.jsp</result>
  		</action>
  		
     	<!-- Persist New Category to Database -->
-    	<action name="submitCategory" class="com.bookstore.view.CategoryController" method="addCategory">
+    	<action name="submitCategory" class="com.bookstore.controller.CategoryController" method="addCategory">
     		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">categoriesForm.jsp</result>
  		</action>
  		
     	<!-- Persist New Book to Database -->
-    	<action name="submitBook" class="com.bookstore.view.BookController" method="addBook">
+    	<action name="submitBook" class="com.bookstore.controller.BookController" method="addBook">
     		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
     		<result name="success">administrationDashboard.jsp</result>
-    		<result name="error">categoriesForm.jsp</result>
+    		<result name="error">bookForm.jsp</result>
  		</action>
  		
     	<!-- View a book -->
-    	<action name="viewBook" class="com.bookstore.view.BookController" method="fetchBook">
+    	<action name="viewBook" class="com.bookstore.controller.BookController" method="fetchBook">
     		<result name="success">viewBook.jsp</result>
  		</action>
  		
     	<!-- Add book to Cart -->
-    	<action name="addToCart" class="com.bookstore.view.CartController" method="addToCart">
+    	<action name="addToCart" class="com.bookstore.controller.CartController" method="addToCart">
     		<result name="success">viewCart.jsp</result>
     		<result name="error">viewBook.jsp</result>
  		</action>
  		
     	<!-- Open Order Page -->
-    	<action name="confirmOrder">
-    		<interceptor-ref name="customer-auth"></interceptor-ref>
+    	<action name="confirmOrder" class="com.bookstore.controller.OrderController" method="confirmOrder">
+    		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">confirmOrder.jsp</result>
  		</action>
  		
@@ -92,19 +92,20 @@
  		</action>
     	
     	<!-- Open Order Page -->
-    	<action name="placeOrder" class="com.bookstore.view.OrderController" method="placeOrder">
-    		<!-- <interceptor-ref name="customer-auth"></interceptor-ref> -->
+    	<action name="placeOrder" class="com.bookstore.controller.OrderController" method="placeOrder">
+    		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">purchaseConfirmation.jsp</result>
  		</action>
  		
     	<!-- Leave a book review -->
-    	<action name="addReview" class="com.bookstore.view.ReviewController" method="addReview">
-    		<!-- <interceptor-ref name="customer-auth"></interceptor-ref> -->
+    	<action name="addReview" class="com.bookstore.controller.ReviewController" method="addReview">
+    		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">viewBook.jsp</result>
  		</action>
  		
     	<!-- Log out customer -->
-        <action name="logout" class="com.bookstore.view.CustomerController" method="logout">
+        <action name="logout" class="com.bookstore.controller.CustomerController" method="logout">
+    		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">index.jsp</result>
  		</action>
  		
@@ -114,15 +115,23 @@
  		</action>
  		
     	<!-- Remove an item from the shopping cart -->
-    	<action name="removeCartItem" class="com.bookstore.view.CartController" method="removeItem">
+    	<action name="removeCartItem" class="com.bookstore.controller.CartController" method="removeItem">
+    	    <interceptor-ref name="customerStack"></interceptor-ref>
     	    <result name="success">viewCart.jsp</result>
     	</action>
     	
     	<!-- View All Orders -->
-    	<action name="manageOrders" class="com.bookstore.view.OrderController" method="getAllOrders">
-    	    <!-- ADMIN ONLY -->
+    	<action name="manageOrders" class="com.bookstore.controller.OrderController" method="getAllOrders">
+    	   <!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
     	    <result name="success">manageOrders.jsp</result>
     	</action>
+    	
+    	<!-- Link To Admin Log In -->
+    	<action name="admin">
+    	    <result>adminLogin.jsp</result>
+    	</action>
+    	
+    	<!-- Admin Log In -->
         
     </package>
     

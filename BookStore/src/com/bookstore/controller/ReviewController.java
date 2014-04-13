@@ -1,7 +1,7 @@
 /*
  * Class ReviewController
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;

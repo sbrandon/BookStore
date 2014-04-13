@@ -4,6 +4,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+
+@NamedQueries({
+	@NamedQuery(name = "Administrator.authenticate", query = "select o from Administrator o where o.email=:email"),
+})
 
 @Entity
 public class Administrator {

@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
@@ -32,7 +33,7 @@ public interface SessionBeanFacadeLocal {
 	public List<Book> findBookByCategory(String category);
 	public Book findBookById(int book_id);
 	//Customer
-	public Customer authenticate(String email);
+	public Customer authenticateCust(String email);
 	//LineItem
 	public List<LineItem> findLineItemByCart(int cartId);
 	public boolean removeLineItem(int itemId);
@@ -42,4 +43,6 @@ public interface SessionBeanFacadeLocal {
 	public List<Review> getBookReviews(int bookId);
 	//CustomerOrder
 	public List<CustomerOrder> getOrders();
+	//Administrator
+	public Administrator authenticateAdmin(String email);
 }

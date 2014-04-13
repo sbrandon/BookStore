@@ -1,11 +1,15 @@
 /*
  * Class BookController 
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
 
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
@@ -26,7 +30,6 @@ public class BookController implements Preparable{
 	private String description;
 	private double price;
 	private String category;
-	private String image;
 	private int stockQuantity;
 	private List <Category> categories = new ArrayList<Category>();
 	private Book book;
@@ -36,6 +39,11 @@ public class BookController implements Preparable{
 	private List<Book> books = new ArrayList<Book>();
 	private List<Review> reviews = new ArrayList<Review>();
 	private Customer customer;
+	//File Upload
+	private File myFile;
+	private String myFileContentType;
+	private String myFileFileName;
+	private String destPath;
 	
 	@Override
 	public void prepare() throws Exception {
@@ -50,6 +58,15 @@ public class BookController implements Preparable{
 	}
 	
 	public String addBook(){
+		destPath = "C:/Users/stephen/Documents/DT354/DT354.4/Software Patterns/Assignments/BookStore/BookStore/WebContent/images";
+		try{
+			File destFile = new File(destPath, myFileFileName);
+			FileUtils.copyFile(myFile, destFile);
+		}
+		catch(IOException e){
+			e.printStackTrace();
+			return "error";
+		}
 		Book book = new Book();
 		int categoryId = Integer.parseInt(category);
 		book.setTitle(title);
@@ -58,7 +75,7 @@ public class BookController implements Preparable{
 		book.setPrice(price);
 		book.setIsbn(isbn);
 		book.setCategory(findCategory(categoryId));
-		book.setImage(image);
+		book.setImage(myFileFileName);
 		book.setStockQuantity(stockQuantity);
 		ejbSessionBean.persist(book);
 		return "success";
@@ -154,14 +171,6 @@ public class BookController implements Preparable{
 		this.category = category;
 	}
 
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public int getStockQuantity() {
 		return stockQuantity;
 	}
@@ -224,6 +233,38 @@ public class BookController implements Preparable{
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public File getMyFile() {
+		return myFile;
+	}
+
+	public void setMyFile(File myFile) {
+		this.myFile = myFile;
+	}
+
+	public String getMyFileContentType() {
+		return myFileContentType;
+	}
+
+	public void setMyFileContentType(String myFileContentType) {
+		this.myFileContentType = myFileContentType;
+	}
+
+	public String getMyFileFileName() {
+		return myFileFileName;
+	}
+
+	public void setMyFileFileName(String myFileFileName) {
+		this.myFileFileName = myFileFileName;
+	}
+
+	public String getDestPath() {
+		return destPath;
+	}
+
+	public void setDestPath(String destPath) {
+		this.destPath = destPath;
 	}
 	
 }

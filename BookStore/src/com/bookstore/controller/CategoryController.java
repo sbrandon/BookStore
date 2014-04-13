@@ -1,7 +1,7 @@
 /*
  * Class CategoryController
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
 import java.util.Map;
 

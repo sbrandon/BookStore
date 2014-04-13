@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
@@ -101,12 +102,6 @@ public class SessionBeanFacade implements SessionBeanFacadeLocal {
 		return book;
 	}
 	
-	//Return a customer object by email, used for authentication purposes.
-	public Customer authenticate(String email) {
-		Customer customer = (Customer) entityManager.createNamedQuery("Customer.authenticate").setParameter("email", email).getSingleResult();
-		return customer;
-	}
-	
 	//Return a list of line items in a cart. 
 	@SuppressWarnings("unchecked")
 	public List<LineItem> findLineItemByCart(int cartId) {
@@ -152,6 +147,17 @@ public class SessionBeanFacade implements SessionBeanFacadeLocal {
 		return orders;
 	}
 	
+	//Return a customer object by email, used for authentication purposes.
+	public Customer authenticateCust(String email) {
+		Customer customer = (Customer) entityManager.createNamedQuery("Customer.authenticate").setParameter("email", email).getSingleResult();
+		return customer;
+	}
+	
+	//Return an administrator object by email, used for authentication purposes.
+	public Administrator authenticateAdmin(String email) {
+		Administrator admin = (Administrator) entityManager.createNamedQuery("Administrator.authenticate").setParameter("email", email).getSingleResult();
+		return admin;
+	}
 	
 
 }

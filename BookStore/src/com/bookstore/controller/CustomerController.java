@@ -1,7 +1,7 @@
 /*
  * Class CustomerController
  */
-package com.bookstore.view;
+package com.bookstore.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +38,7 @@ public class CustomerController implements Preparable, SessionAware {
 	
 	//Login
 	public String login(){
-		customer = ejbSessionBean.authenticate(email);
+		customer = ejbSessionBean.authenticateCust(email);
 		if(passwordHash.authenticate(customer.getPassword(), customer.getSalt(), password)){
 			session.put("customer", customer);
 			listCategories();

@@ -2,6 +2,7 @@
 	<h1>Show Book</h1>
 	<table border="1">
 		<tr>
+			<th>Image:</th>
 			<th>Title:</th>
 			<th>Author:</th>
 			<th>ISBN:</th>
@@ -9,6 +10,7 @@
 			<th>Price:</th>
 		</tr>
 		<tr>
+			<td><img src="images/<s:property value="book.image"/>"/></td>
 			<td><s:property value="book.title"/></td>
 			<td><s:property value="book.author"/></td>
 			<td><s:property value="book.isbn"/></td>
