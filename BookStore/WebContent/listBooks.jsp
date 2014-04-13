@@ -1,28 +1,12 @@
 <%@ include file="header.jsp" %>
+<%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 	<h1>Search Results / Show Books</h1>
-	<table border="1">
-		<tr>
-			<th>Title:</th>
-			<th>Author:</th>
-			<th>ISBN:</th>
-			<th>Stock Quantity:</th>
-			<th>Price:</th>
-			<th></th>
-		</tr>
-		<s:iterator value="books">
-			<tr>
-				<td><s:property value="title"/></td>
-				<td><s:property value="author"/></td>
-				<td><s:property value="isbn"/></td>
-				<td><s:property value="stockQuantity"/></td>
-				<td><s:property value="price"/></td>
-				<td>
-					<s:form action="viewBook">
-						<s:hidden name="bookId" value="%{id}"/>
-						<s:submit type="button">View Book</s:submit>
-					</s:form>
-				</td>
-			</tr>
-		</s:iterator>
-	</table>
+	<display:table name="books" pagesize="10" requestURI="" sort = "list">
+		<display:column property="title" title="Title" sortable="true"/>
+		<display:column property="author" title="Author" sortable="true"/>
+		<display:column property="isbn" title="ISBN" sortable="true"/>
+		<display:column property="stockQuantity" title="Available" sortable="true"/>
+		<display:column property="price" title="Price" sortable="true"/>
+	    <display:column property="id" title="" href="viewBook.action" paramId="bookId" />
+	</display:table>
 <%@ include file="footer.jsp" %>
