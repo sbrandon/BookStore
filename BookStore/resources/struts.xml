@@ -45,26 +45,32 @@
  		
         <!-- Open the Categories Form -->
     	<action name="categoriesForm">
-    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<interceptor-ref name="adminStack"></interceptor-ref>
     		<result>categoryForm.jsp</result>
  		</action>
  		
     	<!-- Open the Books Form -->
     	<action name="booksForm" class="com.bookstore.controller.BookController" method="listCategories">
-    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<interceptor-ref name="adminStack"></interceptor-ref>
+    		<result name="success">bookForm.jsp</result>
+ 		</action>
+ 		
+    	<!-- Edit Book -->
+    	<action name="editBook" class="com.bookstore.controller.BookController" method="fetchBook">
+    		<interceptor-ref name="adminStack"></interceptor-ref>
     		<result name="success">bookForm.jsp</result>
  		</action>
  		
     	<!-- Persist New Category to Database -->
     	<action name="submitCategory" class="com.bookstore.controller.CategoryController" method="addCategory">
-    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<interceptor-ref name="adminStack"></interceptor-ref>
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">categoriesForm.jsp</result>
  		</action>
  		
     	<!-- Persist New Book to Database -->
     	<action name="submitBook" class="com.bookstore.controller.BookController" method="addBook">
-    		<!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    		<interceptor-ref name="adminStack"></interceptor-ref>
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">bookForm.jsp</result>
  		</action>
@@ -84,11 +90,6 @@
     	<action name="confirmOrder" class="com.bookstore.controller.OrderController" method="confirmOrder">
     		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">confirmOrder.jsp</result>
- 		</action>
- 		
-    	<!-- A link to the home page of the shop -->
-    	<action name="continueShopping">
-    		<result name="success">bookStoreHome.jsp</result>
  		</action>
     	
     	<!-- Open Order Page -->
@@ -122,8 +123,14 @@
     	
     	<!-- View All Orders -->
     	<action name="manageOrders" class="com.bookstore.controller.OrderController" method="getAllOrders">
-    	   <!-- MUST BE AN ADMINISTRATOR INTERCEPTOR NEEDED -->
+    	   <interceptor-ref name="adminStack"></interceptor-ref>
     	    <result name="success">manageOrders.jsp</result>
+    	</action>
+    	
+    	<!-- View All Customers -->
+    	<action name="manageCustomers" class="com.bookstore.controller.CustomerController" method="getAllCustomers">
+    	   <interceptor-ref name="adminStack"></interceptor-ref>
+    	    <result name="success">manageCustomers.jsp</result>
     	</action>
     	
     	<!-- Link To Admin Log In -->
@@ -132,6 +139,51 @@
     	</action>
     	
     	<!-- Admin Log In -->
+    	<action name="adminLogin" class="com.bookstore.controller.AdminController" method="login">
+    		<result name="success">administrationDashboard.jsp</result>
+    		<result name="error">adminLogin.jsp</result>
+ 		</action>
+ 		
+    	<!-- Admin Register -->
+    	<action name="adminRegister" class="com.bookstore.controller.AdminController" method="register">
+    		<result name="success">administrationDashboard.jsp</result>
+    		<result name="error">adminLogin.jsp</result>
+ 		</action>
+ 		
+    	<!-- Admin view an order -->
+        <action name="viewOrder" class="com.bookstore.controller.OrderController" method="viewOrder">
+            <interceptor-ref name="adminStack"></interceptor-ref>
+            <result name="success">viewOrder.jsp</result>
+        </action>
+        
+        <!-- Log out administrator -->
+        <action name="logout" class="com.bookstore.controller.AdminController" method="logout">
+    		<interceptor-ref name="adminStack"></interceptor-ref>
+    		<result name="success">index.jsp</result>
+ 		</action>
+ 		
+        <!-- Go to home page of shop -->
+        <action name="shopHome" class="com.bookstore.controller.CategoryController" method="shopHome">
+            <result name="success">bookStoreHome.jsp</result>
+        </action>
+        
+        <!-- Admin Link To DashBoard -->
+        <action name="dashboard" class="com.bookstore.controller.AdminController">
+            <interceptor-ref name="adminStack"></interceptor-ref>
+            <result name="success">administrationDashboard.jsp</result>
+        </action>
+        
+        <!-- Link to Shopping Cart -->
+        <action name="viewCart" class="com.bookstore.controller.CartController" method="viewCart">
+            <interceptor-ref name="customerStack"></interceptor-ref>
+            <result name="success">viewCart.jsp</result>
+            <result name="error">bookStoreHome.jsp</result>
+        </action>
+        
+        <!-- Get All Books Belonging To A Category -->
+        <action name="getBooksByCategory" class="com.bookstore.controller.BookController" method="getBooksByCategory">
+            <result name="success">listBooks.jsp</result>
+        </action>
         
     </package>
     

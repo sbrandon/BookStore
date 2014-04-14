@@ -7,6 +7,9 @@
 		<display:column property="isbn" title="ISBN" sortable="true"/>
 		<display:column property="stockQuantity" title="Available" sortable="true"/>
 		<display:column property="price" title="Price" sortable="true"/>
-	    <display:column property="id" title="" href="viewBook.action" paramId="bookId" />
+	    <display:column property="id" title="View Book" href="viewBook.action" paramId="bookId" />
+	    <s:if test="%{admin!=null}">
+			<display:column property="id" title="Edit Book" href="editBook.action" paramId="bookId" />
+		</s:if>
 	</display:table>
 <%@ include file="footer.jsp" %>

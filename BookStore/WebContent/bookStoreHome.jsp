@@ -1,18 +1,14 @@
 <%@ include file="header.jsp" %>
 	<h1>Home Page of Book Shop</h1>
 	<h2>Select A Category</h2>
-	<table>
-		<tr>
-			<th>Category Name:</th>
-		</tr>
+	<ul>
 		<s:iterator value="categories">
-			<tr>
-				<td>
-					<s:property value="categoryTitle"/>
-				</td>
-			</tr>
+			<s:url action="getBooksByCategory" includeParams="get" var="catId">
+				<s:param name="catId" value="%{id}"/>
+			</s:url>
+			<li><a href="<s:property value="#catId"/>"><s:property value="categoryTitle"/></a>
 		</s:iterator>
-	</table>
+	</ul>
 	<h2>Search For Books</h2>
 	<s:form action="searchBooks">
 		<label for="searchObject" class="control-label">Search Subject</label>

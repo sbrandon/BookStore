@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Cart;
 import com.bookstore.entity.Customer;
@@ -30,6 +31,11 @@ public class OrderController implements Preparable{
 	private String county;
 	private String phoneNumber;
 	private List <CustomerOrder> orders = new ArrayList<CustomerOrder>();
+	private List <LineItem> lineItems = new ArrayList<LineItem>();
+	private String orderId;
+	private CustomerOrder order;
+	private double totalOrder;
+	private Administrator admin;
 	
 	@Override
 	public void prepare() throws Exception {
@@ -37,6 +43,7 @@ public class OrderController implements Preparable{
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
 		cart = (Cart) session.get("cart");
+		admin = (Administrator) session.get("admin");
 	}
 	
 	//Confirm Order
@@ -98,6 +105,18 @@ public class OrderController implements Preparable{
 	
 	//Blank method to allow view to get session values.
 	public String confirmOrder(){
+		return "success";
+	}
+	
+	//Allow Administrator to view order details
+	public String viewOrder(){
+		totalOrder = 0.0;
+		int id = Integer.parseInt(orderId);
+		lineItems = ejbSessionBean.findLineItemByOrder(id);
+		for(LineItem lineItem : lineItems){
+			totalOrder += lineItem.getLineTotal();
+		}
+		order = ejbSessionBean.findOrderById(id);
 		return "success";
 	}
 	
@@ -165,5 +184,45 @@ public class OrderController implements Preparable{
 	public void setOrders(List<CustomerOrder> orders) {
 		this.orders = orders;
 	}
-	
+
+	public List<LineItem> getLineItems() {
+		return lineItems;
+	}
+
+	public void setLineItems(List<LineItem> lineItems) {
+		this.lineItems = lineItems;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+
+	public CustomerOrder getOrder() {
+		return order;
+	}
+
+	public void setOrder(CustomerOrder order) {
+		this.order = order;
+	}
+
+	public double getTotalOrder() {
+		return totalOrder;
+	}
+
+	public void setTotalOrder(double totalOrder) {
+		this.totalOrder = totalOrder;
+	}
+
+	public Administrator getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrator admin) {
+		this.admin = admin;
+	}
+
 }

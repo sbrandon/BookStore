@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
 import com.bookstore.security.PasswordHash;
@@ -30,10 +31,13 @@ public class CustomerController implements Preparable, SessionAware {
 	private PasswordHash passwordHash = new PasswordHash();
 	private Map<String, Object> session;
 	private List<Category> categories = new ArrayList<Category>();
+	private List<Customer> customers = new ArrayList<Customer>();
+	private Administrator admin;
 	
 	public void prepare(){
 		session = WebSessionFactory.getWebSessionInstance();
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
+		admin = (Administrator) session.get("admin");
 	}
 	
 	//Login
@@ -76,6 +80,12 @@ public class CustomerController implements Preparable, SessionAware {
 	//Populate list of categories
 	public void listCategories(){
 		categories = ejbSessionBean.getCategories();
+	}
+	
+	//Get All Customers For Administrator View
+	public String getAllCustomers(){
+		customers = ejbSessionBean.getAllCustomers();
+		return "success";
 	}
 
 	//Getters & Setters
@@ -143,4 +153,20 @@ public class CustomerController implements Preparable, SessionAware {
 		this.lastName = lastName;
 	}
 
+	public List<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(List<Customer> customers) {
+		this.customers = customers;
+	}
+
+	public Administrator getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrator admin) {
+		this.admin = admin;
+	}
+	
 }

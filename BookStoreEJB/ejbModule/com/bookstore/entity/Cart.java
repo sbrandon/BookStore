@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 @NamedQueries({
 	@NamedQuery(name = "Cart.remove", query = "delete from Cart o where o.id=:cart_id"),

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Category;
 import com.bookstore.entity.Customer;
@@ -39,17 +40,19 @@ public class BookController implements Preparable{
 	private List<Book> books = new ArrayList<Book>();
 	private List<Review> reviews = new ArrayList<Review>();
 	private Customer customer;
-	//File Upload
 	private File myFile;
 	private String myFileContentType;
 	private String myFileFileName;
 	private String destPath;
+	private Administrator admin;
+	private String catId;
 	
 	@Override
 	public void prepare() throws Exception {
 		session = WebSessionFactory.getWebSessionInstance();
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
+		admin = (Administrator) session.get("admin");
 	}
 	
 	public String listCategories(){
@@ -57,7 +60,18 @@ public class BookController implements Preparable{
 		return "success";
 	}
 	
+	//This method creates a new book or edits an existing one.
 	public String addBook(){
+		Book book;
+		boolean merge = false;
+		if(!bookId.equals("")){
+			int id = Integer.parseInt(bookId);
+			book = ejbSessionBean.findBookById(id);
+			merge = true;
+		}
+		else{
+			book = new Book();
+		}
 		destPath = "C:/Users/stephen/Documents/DT354/DT354.4/Software Patterns/Assignments/BookStore/BookStore/WebContent/images";
 		try{
 			File destFile = new File(destPath, myFileFileName);
@@ -67,7 +81,6 @@ public class BookController implements Preparable{
 			e.printStackTrace();
 			return "error";
 		}
-		Book book = new Book();
 		int categoryId = Integer.parseInt(category);
 		book.setTitle(title);
 		book.setAuthor(author);
@@ -77,7 +90,12 @@ public class BookController implements Preparable{
 		book.setCategory(findCategory(categoryId));
 		book.setImage(myFileFileName);
 		book.setStockQuantity(stockQuantity);
-		ejbSessionBean.persist(book);
+		if(merge == true){
+			ejbSessionBean.merge(book);
+		}
+		else{
+			ejbSessionBean.persist(book);
+		}
 		return "success";
 	}
 	
@@ -87,11 +105,19 @@ public class BookController implements Preparable{
 		return category;
 	}
 	
+	//Get a list of books belonging to a category
+	public String getBooksByCategory(){
+		int id = Integer.parseInt(catId);
+		books = ejbSessionBean.findBookByCategory(id);
+		return "success";
+	}
+	
 	//Get Book object
 	public String fetchBook(){
 		int id = Integer.parseInt(bookId);
 		book = ejbSessionBean.findBookById(id);
 		getBookReviews(id);
+		listCategories();
 		return "success";
 	}
 	
@@ -265,6 +291,22 @@ public class BookController implements Preparable{
 
 	public void setDestPath(String destPath) {
 		this.destPath = destPath;
+	}
+
+	public Administrator getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrator admin) {
+		this.admin = admin;
+	}
+
+	public String getCatId() {
+		return catId;
+	}
+
+	public void setCatId(String catId) {
+		this.catId = catId;
 	}
 	
 }

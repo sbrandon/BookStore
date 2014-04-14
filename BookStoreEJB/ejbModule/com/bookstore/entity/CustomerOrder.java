@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 @NamedQueries( {
 	@NamedQuery(name = "CustomerOrder.findAll", query = "select o from CustomerOrder o"),
+	@NamedQuery(name = "CustomerOrder.findById", query = "select o from CustomerOrder o where o.id=:orderId")
 })
 
 @Entity

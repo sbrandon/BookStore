@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Customer;
 import com.bookstore.entity.Review;
@@ -27,11 +28,13 @@ public class ReviewController implements Preparable {
 	private String bookId;
 	private Book book;
 	private List<Review> reviews = new ArrayList<Review>();
+	private Administrator admin;
 	
 	public void prepare() throws Exception {
 		session = WebSessionFactory.getWebSessionInstance();
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
+		admin = (Administrator) session.get("admin");
 	}
 	
 	//Add a review. must relate a book and person.
@@ -129,6 +132,14 @@ public class ReviewController implements Preparable {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public Administrator getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrator admin) {
+		this.admin = admin;
 	}
 	
 }

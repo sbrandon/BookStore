@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.bookstore.entity.Administrator;
 import com.bookstore.entity.Book;
 import com.bookstore.entity.Cart;
 import com.bookstore.entity.Customer;
@@ -27,12 +28,14 @@ public class CartController implements Preparable {
 	private List<LineItem> lineItems = new ArrayList<LineItem>();
 	private Customer customer;
 	private double total;
+	private Administrator admin;
 	
 	public void prepare() throws Exception {
 		session = WebSessionFactory.getWebSessionInstance();
 		ejbSessionBean = EjbSessionBeanFactory.getSessionBeanInstance();
 		customer = (Customer) session.get("customer");
 		cart = (Cart) session.get("cart");
+		admin = (Administrator) session.get("admin");
 	}
 	
 	//Add a book to cart
@@ -111,6 +114,16 @@ public class CartController implements Preparable {
 		return "success";
 	}
 	
+	public String viewCart(){
+		if(cart != null){
+			listCartItems();
+			return "success";
+		}
+		else{
+			return "error";
+		}
+	}
+	
 	//Getters & Setters
 	public Cart getCart() {
 		return cart;
@@ -166,6 +179,14 @@ public class CartController implements Preparable {
 
 	public void setLineItemId(String lineItemId) {
 		this.lineItemId = lineItemId;
+	}
+
+	public Administrator getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Administrator admin) {
+		this.admin = admin;
 	}
 
 }

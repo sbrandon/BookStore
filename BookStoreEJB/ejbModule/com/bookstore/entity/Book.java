@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 	@NamedQuery(name = "Book.findByTitle", query = "select o from Book o where o.title like :search_title"),
 	@NamedQuery(name = "Book.findByAuthor", query = "select o from Book o where o.author like :search_author"),
 	@NamedQuery(name = "Book.findByCategory", query = "select o from Book o where o.category.categoryTitle like :search_category"),
+	@NamedQuery(name = "Book.findByCategoryId", query = "select o from Book o where o.category.id=:catId"),
 })
 
 @Entity

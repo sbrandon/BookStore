@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 
 @NamedQueries({
 	@NamedQuery(name="LineItem.findByCartId", query="select o from LineItem o where o.cart.id=:cart_id"),
+	@NamedQuery(name="LineItem.findByOrderId", query="select o from LineItem o where o.order.id=:order_id"),
 	@NamedQuery(name = "LineItem.remove", query = "delete from LineItem o where o.id=:item_id"),
 })
 

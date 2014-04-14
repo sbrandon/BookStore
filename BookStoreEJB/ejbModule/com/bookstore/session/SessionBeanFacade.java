@@ -115,6 +115,19 @@ public class SessionBeanFacade implements SessionBeanFacadeLocal {
 		return lineItems;
 	}
 	
+	//Return a list of line items in an order. 
+	@SuppressWarnings("unchecked")
+	public List<LineItem> findLineItemByOrder(int orderId) {
+		List<LineItem> lineItems = new ArrayList<LineItem>();
+		try{
+			lineItems = (List<LineItem>) entityManager.createNamedQuery("LineItem.findByOrderId").setParameter("order_id", orderId).getResultList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return lineItems;
+	}
+	
 	//Delete Cart
 	public boolean deleteCart(int cartId) {
 		entityManager.createNamedQuery("Cart.remove").setParameter("cart_id", cartId).executeUpdate();
@@ -159,5 +172,37 @@ public class SessionBeanFacade implements SessionBeanFacadeLocal {
 		return admin;
 	}
 	
+	//Get all books in database
+	@SuppressWarnings("unchecked")
+	public List<Book> getAllBooks() {
+		List <Book> books = entityManager.createNamedQuery("Book.findAll").getResultList();
+		return books;
+	}
+
+	//Get all customers in database
+	@SuppressWarnings("unchecked")
+	public List<Customer> getAllCustomers() {
+		List<Customer> customers = entityManager.createNamedQuery("Customer.findAll").getResultList();
+		return customers;
+	}
+	
+	//Find a customerOrder by their ID number
+	public CustomerOrder findOrderById(int orderId) {
+		CustomerOrder order = (CustomerOrder) entityManager.createNamedQuery("CustomerOrder.findById").setParameter("orderId", orderId).getSingleResult();
+		return order;
+	}
+	
+	//Get list of books belonging to category
+	@SuppressWarnings("unchecked")
+	public List<Book> findBookByCategory(int catId) {
+		List<Book> books = new ArrayList<Book>();
+		try{
+			books = (List<Book>) entityManager.createNamedQuery("Book.findByCategoryId").setParameter("catId", catId).getResultList();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return books;
+	}
 
 }

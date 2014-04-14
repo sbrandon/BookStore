@@ -31,11 +31,15 @@ public interface SessionBeanFacadeLocal {
 	public List<Book> findBookByTitle(String title);
 	public List<Book> findBookByAuthor(String author);
 	public List<Book> findBookByCategory(String category);
+	public List<Book> getAllBooks();
+	public List<Book> findBookByCategory(int catId);
 	public Book findBookById(int book_id);
 	//Customer
 	public Customer authenticateCust(String email);
+	public List<Customer> getAllCustomers();
 	//LineItem
 	public List<LineItem> findLineItemByCart(int cartId);
+	public List<LineItem> findLineItemByOrder(int orderId);
 	public boolean removeLineItem(int itemId);
 	//Cart
 	public boolean deleteCart(int cartId);
@@ -43,6 +47,7 @@ public interface SessionBeanFacadeLocal {
 	public List<Review> getBookReviews(int bookId);
 	//CustomerOrder
 	public List<CustomerOrder> getOrders();
+	public CustomerOrder findOrderById(int orderId);
 	//Administrator
 	public Administrator authenticateAdmin(String email);
 }
