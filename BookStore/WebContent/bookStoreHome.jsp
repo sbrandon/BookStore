@@ -11,13 +11,12 @@
 	</ul>
 	<h2>Search For Books</h2>
 	<s:form action="searchBooks">
-		<label for="searchObject" class="control-label">Search Subject</label>
+		<label for="searchObject" class="control-label">Search By...</label>
 		<select name="searchObject" class="form-control">
 			<option value="author">Author</option>
 			<option value="title">Title</option>
 			<option value="category">Category</option>
 		</select>
-		<label for="address">Search String:</label>
 		<s:textfield name="searchString" type="text" value="" placeholder="John Steinbeck..."></s:textfield>
 		<s:submit type="button">Search</s:submit>
 	</s:form>

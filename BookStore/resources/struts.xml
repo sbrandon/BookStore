@@ -26,13 +26,13 @@
         </global-results>
         
         <!-- Register a new user NOTE: there is no interceptor on this method because the user will not be logged in -->
-    	<action name="register" class="com.bookstore.controller.CustomerController" method="register">
+    	<action name="register" class="com.bookstore.controller.UserController" method="custRegister">
     		<result name="success">bookStoreHome.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
  		
     	<!-- Allow an existing user to log in -->
-    	<action name="login" class="com.bookstore.controller.CustomerController" method="login">
+    	<action name="login" class="com.bookstore.controller.UserController" method="custLogin">
     		<result name="success">bookStoreHome.jsp</result>
     		<result name="error">index.jsp</result>
  		</action>
@@ -105,7 +105,7 @@
  		</action>
  		
     	<!-- Log out customer -->
-        <action name="logout" class="com.bookstore.controller.CustomerController" method="logout">
+        <action name="logout" class="com.bookstore.controller.UserController" method="custlogout">
     		<interceptor-ref name="customerStack"></interceptor-ref>
     		<result name="success">index.jsp</result>
  		</action>
@@ -128,7 +128,7 @@
     	</action>
     	
     	<!-- View All Customers -->
-    	<action name="manageCustomers" class="com.bookstore.controller.CustomerController" method="getAllCustomers">
+    	<action name="manageCustomers" class="com.bookstore.controller.UserController" method="getAllCustomers">
     	   <interceptor-ref name="adminStack"></interceptor-ref>
     	    <result name="success">manageCustomers.jsp</result>
     	</action>
@@ -139,13 +139,13 @@
     	</action>
     	
     	<!-- Admin Log In -->
-    	<action name="adminLogin" class="com.bookstore.controller.AdminController" method="login">
+    	<action name="adminLogin" class="com.bookstore.controller.UserController" method="adminLogin">
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">adminLogin.jsp</result>
  		</action>
  		
     	<!-- Admin Register -->
-    	<action name="adminRegister" class="com.bookstore.controller.AdminController" method="register">
+    	<action name="adminRegister" class="com.bookstore.controller.UserController" method="adminRegister">
     		<result name="success">administrationDashboard.jsp</result>
     		<result name="error">adminLogin.jsp</result>
  		</action>
@@ -168,7 +168,7 @@
         </action>
         
         <!-- Admin Link To DashBoard -->
-        <action name="dashboard" class="com.bookstore.controller.AdminController">
+        <action name="dashboard" class="com.bookstore.controller.UserController" method="getAdminSession">
             <interceptor-ref name="adminStack"></interceptor-ref>
             <result name="success">administrationDashboard.jsp</result>
         </action>

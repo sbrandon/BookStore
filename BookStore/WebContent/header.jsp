@@ -4,10 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="css/styles.css" rel="stylesheet">
 <title>BookStore</title>
 </head>
 <body>
-<ul>
+<div class="store-title">
+	BookStore
+</div>
+<ul class="main-menu">
 	<s:if test="%{customer!=null}">
 		<li>Hi, ${customer.firstName}&nbsp;${customer.lastName}&nbsp;<a href="<s:url action="logout"/>">Logout</a></li>
 		<li><a href="<s:url action="viewCart"/>">Shopping Cart</a></li>
