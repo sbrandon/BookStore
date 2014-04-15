@@ -1,6 +1,6 @@
 <%@ include file="header.jsp" %>
 	<h1>Show Book</h1>
-	<table border="1">
+	<table>
 		<tr>
 			<th>Image:</th>
 			<th>Title:</th>
@@ -19,6 +19,7 @@
 		</tr>
 	</table>
 	<s:form action="addToCart">
+		<label>Order Quantity</label>
 		<select name="quantity">
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -32,6 +33,7 @@
 	</s:form>
 	<s:form action="addReview">
 		<s:hidden name="bookId" value="%{book.id}"/>
+		<label>Rating</label>
 		<select name="rating">
 			<option value="1">1*</option>
 			<option value="2">2*</option>

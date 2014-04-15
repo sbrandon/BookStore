@@ -157,7 +157,7 @@
         </action>
         
         <!-- Log out administrator -->
-        <action name="logout" class="com.bookstore.controller.AdminController" method="logout">
+        <action name="logout" class="com.bookstore.controller.UserController" method="logout">
     		<interceptor-ref name="adminStack"></interceptor-ref>
     		<result name="success">index.jsp</result>
  		</action>
